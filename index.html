@@ -66,6 +66,7 @@
           animation: {
             'fade-in': 'fadeIn 0.5s ease-out forwards',
             'slide-up': 'slideUp 0.5s ease-out forwards',
+            'pulse-soft': 'pulseSoft 2s infinite',
           },
           keyframes: {
             fadeIn: {
@@ -75,6 +76,10 @@
             slideUp: {
               '0%': { opacity: '0', transform: 'translateY(20px)' },
               '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            pulseSoft: {
+              '0%, 100%': { opacity: '1', transform: 'scale(1)' },
+              '50%': { opacity: '0.8', transform: 'scale(1.02)' },
             }
           }
         }
@@ -254,6 +259,29 @@
 
   </main>
 
+  <!-- Camera Scanner Modal -->
+  <div id="scanner-modal" class="hidden fixed inset-0 bg-black/95 z-50 flex flex-col items-center justify-center p-4">
+    <div class="relative w-full max-w-md bg-zinc-900 border border-white/10 rounded-3xl overflow-hidden shadow-2xl">
+      <div class="p-6 border-b border-white/5 flex items-center justify-between">
+        <h3 class="text-lg font-medium text-white flex items-center gap-2">
+          <i data-lucide="scan" class="w-5 h-5 text-amber-500"></i>
+          Scanning Barcode...
+        </h3>
+        <button type="button" id="close-scanner-btn" class="p-2 text-zinc-400 hover:text-white rounded-full bg-white/5 hover:bg-white/10 transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div class="relative aspect-square md:aspect-[4/3] bg-black flex items-center justify-center overflow-hidden">
+        <!-- Live Scanning Overlay Line -->
+        <div class="absolute inset-x-0 h-1 bg-emerald-500 shadow-[0_0_15px_#10b981] animate-pulse top-1/2 z-10"></div>
+        <video id="scanner-video" class="w-full h-full object-cover"></video>
+      </div>
+      <div class="p-6 text-center text-xs text-zinc-400 bg-zinc-900/50">
+        Point your camera at a product barcode to scan it automatically.
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="mt-auto py-8 text-center border-t border-white/5">
     <a 
@@ -267,6 +295,9 @@
       <i data-lucide="external-link" class="w-3.5 h-3.5" aria-hidden="true"></i>
     </a>
   </footer>
+
+  <!-- Barcode Scanner Library -->
+  <script src="https://unpkg.com/@zxing/library@latest"></script>
 
   <!-- Application Logic -->
   <script>
@@ -311,8 +342,20 @@
     const detailContainer = document.getElementById('product-detail-container');
     const backBtn = document.getElementById('back-btn');
     const suggestions = document.getElementById('suggestions');
-    let recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+    const scanBtn = document.getElementById('scan-btn');
+    const barcodeFile = document.getElementById('barcode-file');
+    const scannerModal = document.getElementById('scanner-modal');
+    const closeScannerBtn = document.getElementById('close-scanner-btn');
+    const scannerVideo = document.getElementById('scanner-video');
+
+    let recentSearches = [];
+    try {
+      recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+    } catch (e) {
+      recentSearches = [];
+    }
     let warmupController = null;
+    let activeCodeReader = null;
 
     // --- Initialize Icons ---
     lucide.createIcons();
@@ -454,7 +497,7 @@
           <span class="text-[10px] font-bold tracking-widest uppercase bg-cyan-500/10 text-cyan-400 py-1.5 px-3 rounded-lg border border-cyan-500/20">DATA: ${quality}</span>`;
 
         return `
-          <button onclick="selectProduct('${item._id}')" aria-label="Examine ${name} product in detail" class="bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col items-start text-left hover:bg-white/10 hover:border-white/20 transition-all group w-full">
+          <button onclick="selectProduct('${item._id || item.code}')" aria-label="Examine ${name} product in detail" class="bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col items-start text-left hover:bg-white/10 hover:border-white/20 transition-all group w-full">
             <div class="h-32 w-full bg-black/20 rounded-xl mb-4 overflow-hidden p-2 flex items-center justify-center relative">
               ${imgHtml}
             </div>
@@ -472,7 +515,7 @@
     }
 
     window.selectProduct = function(productId) {
-      const product = globalProductsList.find(p => p._id === productId) || globalProductsList[0];
+      const product = globalProductsList.find(p => p._id === productId || p.code === productId) || globalProductsList[0];
       renderDetail(product);
     }
 
@@ -494,7 +537,7 @@
       
       document.getElementById('detail-brand').textContent = product.brands?.split(',')[0] || 'Unknown Brand';
       document.getElementById('detail-name').textContent = product.product_name || 'Unnamed Product';
-      document.getElementById('detail-barcode').textContent = `CODE: ${product._id}`;
+      document.getElementById('detail-barcode').textContent = `CODE: ${product._id || product.code || ''}`;
 
       // Scores
       const ns = getNutriScoreDetails(product.nutriscore_grade);
@@ -624,13 +667,15 @@
       const apiQuery = normalizedQuery;
 
       recentSearches = [...new Set([...recentSearches, query])].slice(-20);
-      localStorage.setItem('recentSearches', JSON.stringify(recentSearches));
+      try {
+        localStorage.setItem('recentSearches', JSON.stringify(recentSearches));
+      } catch (e) {}
       
       setLoadingState();
       isShowingList = false;
       globalProductsList = [];
 
-      const isBarcode = /^\d{7,14}$/.test(query);
+      const isBarcode = /^\d{5,15}$/.test(query);
 
       try {
         if (isBarcode) {
@@ -728,55 +773,61 @@
       renderResultsList(globalProductsList);
     });
 
-  </script>
-
-  <!-- Barcode Scanner Logic -->
-  <script src="https://unpkg.com/@zxing/library@latest"></script>
-  <script>
-    const scanBtn = document.getElementById('scan-btn');
-    const barcodeFile = document.getElementById('barcode-file');
-    if (scanBtn && barcodeFile) {
-      scanBtn.onclick = async () => {
-        if ('BarcodeDetector' in window) {
-          try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-            const video = document.createElement('video');
-            video.srcObject = stream; 
-            await video.play();
-            const detector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e'] });
-            const timer = setInterval(async () => {
-              const codes = await detector.detect(video);
-              if (codes.length) {
-                clearInterval(timer); 
-                stream.getTracks().forEach(t => t.stop());
-                document.getElementById('search-input').value = codes[0].rawValue;
-                document.getElementById('search-form').requestSubmit();
-              }
-            }, 500);
-          } catch (e) {
-            barcodeFile.click();
+    // --- Interactive Live Barcode Scanner with ZXing ---
+    async function startScanner() {
+      scannerModal.classList.remove('hidden');
+      try {
+        activeCodeReader = new ZXing.BrowserMultiFormatReader();
+        await activeCodeReader.decodeFromVideoDevice(undefined, scannerVideo, (result, err) => {
+          if (result) {
+            document.getElementById('search-input').value = result.text;
+            stopScanner();
+            document.getElementById('search-form').requestSubmit();
           }
-        } else {
-          barcodeFile.click();
-        }
-      };
-
-      barcodeFile.onchange = async (e) => {
-        const file = e.target.files?.[0]; 
-        if (!file) return;
-        try {
-          const img = new Image();
-          img.src = URL.createObjectURL(file);
-          await img.decode();
-          const reader = new ZXing.BrowserMultiFormatReader();
-          const res = await reader.decodeFromImageElement(img);
-          document.getElementById('search-input').value = res.text;
-          document.getElementById('search-form').requestSubmit();
-        } catch (err) {
-          alert('Barcode could not be read. Try a clearer photo.');
-        }
-      };
+        });
+      } catch (err) {
+        console.error("Video Camera Access Failed: ", err);
+        stopScanner();
+        // Fallback to uploading file if direct webcam access fails
+        barcodeFile.click();
+      }
     }
+
+    function stopScanner() {
+      if (activeCodeReader) {
+        activeCodeReader.reset();
+        activeCodeReader = null;
+      }
+      scannerModal.classList.add('hidden');
+    }
+
+    scanBtn.onclick = () => {
+      startScanner();
+    };
+
+    closeScannerBtn.onclick = () => {
+      stopScanner();
+    };
+
+    // --- File Input Barcode Decoder Fallback ---
+    barcodeFile.onchange = async (e) => {
+      const file = e.target.files?.[0]; 
+      if (!file) return;
+      try {
+        const img = new Image();
+        img.src = URL.createObjectURL(file);
+        await new Promise((resolve, reject) => {
+          img.onload = resolve;
+          img.onerror = reject;
+        });
+        const reader = new ZXing.BrowserMultiFormatReader();
+        const res = await reader.decodeFromImageElement(img);
+        document.getElementById('search-input').value = res.text;
+        document.getElementById('search-form').requestSubmit();
+      } catch (err) {
+        showError("Barcode Scanner Error", "Barcode could not be read from image. Please make sure the photo is taken directly under good lighting and contains a clear view of the barcode.");
+      }
+    };
   </script>
 </body>
 </html>
