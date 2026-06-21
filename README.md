@@ -1,46 +1,71 @@
-# What Am I Eating? (English Edition)
+# What Am I Eating?
 
-What Am I Eating? is an English-first food product analysis application powered by Open Food Facts data.
+Open-source food product analyzer built on OpenFoodFacts.
 
-This repository is maintained as a separate English version. The Turkish live deployment must remain untouched.
+Analyze packaged foods by barcode or product name and instantly review:
+
+- Nutri-Score
+- NOVA processing level
+- Ingredients
+- E-number additives
+- Allergens
+- Eco-Score
+- Nutrition facts
+- Data quality indicators
+
+## Live Demo
+
+- Turkish: https://neyiyorum.ozgurguler.tech
+
+## Why?
+
+Most consumers can read an ingredient list but cannot quickly understand what it means.
+
+What Am I Eating? converts raw OpenFoodFacts data into plain-language explanations so people can make more informed food choices.
 
 ## Features
 
-- Product name search
+- Product search
 - Barcode lookup
-- Camera barcode scanning
-- Nutri-Score analysis
-- NOVA processing insights
-- Ingredient review
-- E-number additive explanations
-- Data quality indicators
+- Barcode image scanning
+- Nutrition analysis
+- Additive explanations
+- NOVA classification
+- Nutri-Score interpretation
+- Allergen detection
+- Eco-Score display
+- Data quality scoring
+- Mobile-friendly interface
 
-## English Demo Deployment
+## Screenshots
 
-Recommended target: Cloudflare Pages.
-
-1. Connect this GitHub repository.
-2. Deploy the repository root as a static site.
-3. Use a separate Pages project for the English version.
-4. Do not reuse or modify the Turkish production deployment.
+Screenshots and demo GIFs coming soon.
 
 ## Data Source
 
-Open Food Facts: https://world.openfoodfacts.org
+Data is provided by the OpenFoodFacts community project:
 
-## Technology
+https://world.openfoodfacts.org
+
+## Tech Stack
 
 - HTML
-- Vanilla JavaScript
 - Tailwind CSS
-- Open Food Facts API
-- ZXing
+- Vanilla JavaScript
+- OpenFoodFacts API
+- ZXing Barcode Library
 
 ## Roadmap
 
-- Continue translating remaining user-facing Turkish strings.
-- Improve accessibility and metadata.
-- Expand nutrition guidance.
+- Dedicated English deployment
+- Live camera barcode scanning improvements
+- Better product search ranking
+- Expanded additive knowledge base
+- Improved nutrition explanations
+
+## Contributing
+
+Issues, pull requests and feature suggestions are welcome.
 
 ## License
 
