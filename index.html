@@ -374,7 +374,7 @@
       loadingSkeleton.classList.add('grid', 'grid-cols-1', 'sm:grid-cols-2', 'md:grid-cols-3', 'lg:grid-cols-4');
       
       btn.disabled = true;
-      btn.innerHTML = 'Aranıyor...';
+      btn.innerHTML = 'Searching...';
     }
 
     function showError(title, message) {
@@ -479,7 +479,7 @@
       const imgUrl = product.image_front_url || product.image_url;
       document.getElementById('detail-image-container').innerHTML = imgUrl 
         ? `<img src="${imgUrl}" alt="${product.product_name} paket görseli" class="max-h-[300px] w-auto object-contain drop-shadow-2xl animate-fade-in" />`
-        : `<div class="flex flex-col items-center text-zinc-600"><i data-lucide="package" class="w-16 h-16 mb-4"></i><span>Görsel Yok</span></div>`;
+        : `<div class="flex flex-col items-center text-zinc-600"><i data-lucide="package" class="w-16 h-16 mb-4"></i><span>No Image</span></div>`;
       
       document.getElementById('detail-brand').textContent = product.brands?.split(',')[0] || 'Bilinmeyen Marka';
       document.getElementById('detail-name').textContent = product.product_name || 'İsimlendirilmemiş Ürün';
@@ -557,8 +557,8 @@
       else if ((product.nova_group||0)>=3 || ['b','c'].includes(grade)) risk='🟡';
       let summary=[];
       if ((product.nova_group||0) >= 4) summary.push('High derecede işlenmiş bir ürün (NOVA 4).');
-      if (['d','e'].includes(grade)) summary.push('Nutri-Score değeri düşük olduğundan beslenme kalitesi zayıf kabul edilir.');
-      if (additiveCount > 0) summary.push(`Üründe ${additiveCount} katkı maddesi bulunuyor.`);
+      if (['d','e'].includes(grade)) summary.push('Low Nutri-Score suggests lower nutritional quality.');
+      if (additiveCount > 0) summary.push(`This product contains ${additiveCount} additives.`);
       const tags=(product.additives_tags||[]).join(' ');
       if(tags.includes('e950')) summary.push('E950 (Acesulfam-K) yapay tatlandırıcısı içeriyor.');
       if(tags.includes('e951')) summary.push('E951 (Aspartam) içeriyor.');
@@ -566,13 +566,13 @@
       if ((nutriments.sugars_100g||0) > 15) summary.push('Sugar miktarı yüksek görünüyor.');
       if ((nutriments.salt_100g||0) > 1.5) summary.push('Salt oranı yüksek görünüyor.');
       if ((nutriments.fiber_100g||0) >= 6) summary.push('Fiber içeriği olumlu seviyede.');
-      if ((nutriments.proteins_100g||0) >= 10) summary.push('Protein miktarı dikkat çekici düzeyde.');
-      if(summary.length===0) summary.push('Veriler belirgin bir olumsuz işaret göstermiyor.');
+      if ((nutriments.proteins_100g||0) >= 10) summary.push('Notable protein content.');
+      if(summary.length===0) summary.push('No major warning signs were detected in the available data.');
       if (dataCompleteness <= 1) {
         risk='⚪';
-        summary.unshift('Bu ürün hakkında veritabanında çok az bilgi bulunduğu için güvenilir değerlendirme yapmak mümkün değil.');
+        summary.unshift('There is not enough data to make a reliable assessment of this product.');
       }
-      summary.push(risk==='🔴' ? 'Daha az işlenmiş alternatifler tercih edilebilir.' : 'Ara sıra tüketim açısından belirgin bir uyarı görünmüyor.');
+      summary.push(risk==='🔴' ? 'Less processed alternatives may be preferable.' : 'No major warning for occasional consumption.');
       summaryContainer.innerHTML = `<div class="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-5 text-sm text-zinc-200 leading-relaxed"><div class="font-semibold mb-2">Overall Assessment ${risk}</div><div class="mb-2 text-xs text-zinc-400">Data Quality: ${completenessLabel}</div>${summary.join(' ')}</div>`;
 
       // Ingredients
@@ -735,7 +735,7 @@ barcodeFile.onchange=async(e)=>{
   const res=await reader.decodeFromImageElement(img);
   document.getElementById('search-input').value=res.text;
   document.getElementById('search-form').requestSubmit();
- }catch(err){alert('Barkod okunamadı. Daha net bir fotoğraf deneyin.');}
+ }catch(err){alert('Barcode could not be read. Try a clearer photo.');}
 };
 }
 </script>
