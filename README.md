@@ -1,11 +1,22 @@
-# What Am I Eating?
+# FoodLens
 
-[![Open Source](https://img.shields.io/badge/Open%20Source-Yes-green)](https://github.com/ozguradmin/what-am-i-eating)
+Open-source food product analyzer powered by OpenFoodFacts.
 
-Open-source food product analyzer built on OpenFoodFacts.
+FoodLens helps people understand packaged food products in seconds by turning raw nutrition and ingredient data into plain-language explanations.
 
-Analyze packaged foods by barcode or product name and instantly review:
+## Live Demo
 
+- Turkish: https://neyiyorum.ozgurguler.tech
+- English: https://foodlens.ozgurguler.tech
+
+## What It Does
+
+Search by:
+- Product name
+- Barcode number
+- Barcode image
+
+Analyze:
 - Nutri-Score
 - NOVA processing level
 - Ingredients
@@ -15,39 +26,26 @@ Analyze packaged foods by barcode or product name and instantly review:
 - Nutrition facts
 - Data quality indicators
 
-## Live Demo
+## Why FoodLens?
 
-- Turkish: https://neyiyorum.ozgurguler.tech
-- English: https://foodlens.ozgurguler.tech
-- English: https://foodlens.ozgurguler.tech
+Most food databases expose raw data. FoodLens focuses on interpretation.
 
-## Why?
-
-Most consumers can read an ingredient list but cannot quickly understand what it means.
-
-What Am I Eating? converts raw OpenFoodFacts data into plain-language explanations so people can make more informed food choices.
+Instead of only showing scores and ingredient lists, it explains what those values may mean for consumers.
 
 ## Features
 
 - Product search
 - Barcode lookup
 - Barcode image scanning
-- Nutrition analysis
+- Plain-language food analysis
 - Additive explanations
-- NOVA classification
-- Nutri-Score interpretation
-- Allergen detection
-- Eco-Score display
-- Data quality scoring
+- Allergen visibility
+- Nutrition breakdown
 - Mobile-friendly interface
-
-## Screenshots
-
-Screenshots and demo GIFs coming soon.
 
 ## Data Source
 
-Data is provided by the OpenFoodFacts community project:
+FoodLens uses data from the OpenFoodFacts project:
 
 https://world.openfoodfacts.org
 
@@ -58,23 +56,16 @@ https://world.openfoodfacts.org
 - Vanilla JavaScript
 - OpenFoodFacts API
 - ZXing Barcode Library
-
-## Roadmap
-
-- Dedicated English deployment
-- Live camera barcode scanning improvements
-- Better product search ranking
-- Expanded additive knowledge base
-- Improved nutrition explanations
+- Cloudflare Pages
 
 ## Contributing
 
-Issues, pull requests and feature suggestions are welcome.
+Bug reports, feature requests and pull requests are welcome.
+
+## Disclaimer
+
+FoodLens provides educational information and is not medical advice.
 
 ## License
 
 MIT
-
-## Disclaimer
-
-This project provides educational information based on OpenFoodFacts data and should not be considered medical advice.
