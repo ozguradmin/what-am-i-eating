@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Temel SEO & Meta Etiketleri -->
+  <title>What Am I Eating? | Market Ürünleri İnceleme Aracı</title>
+  <meta name="description" content="Tükettiğiniz ürünlerin adını veya barkodunu aratın. Katkı maddelerini (E-kodları), NOVA işlenmişlik seviyesini ve Nutri-Score besin değerlerini şeffafça inceleyin. Ücretsiz Ne Yiyorum analiz aracınız.">
+  <meta name="keywords" content="Nutri-Score hesaplama, NOVA grubu, gıda katkı maddeleri, E-kodları zararları, barkod sorgulama, sağlıklı beslenme, ürün inceleme, gıda dedektifi, gerçek sağlık skoru, barkod okuyucu">
+  <meta name="author" content="Özgür Güler">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Canonical URL (Kendi domaininize aldığınızda adresi buraya yazın) -->
+  <link rel="canonical" href="https://neyiyorum.ozgurguler.tech">
+
+  <!-- Open Graph (Sosyal Medya Paylaşım Görünümü) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="What Am I Eating?">
+  <meta property="og:title" content="What Am I Eating? | Barkod ve Ürün İnceleme">
+  <meta property="og:description" content="Market ürünlerinin barkodunu veya adını aratarak katkı maddelerini, Nutri-Score ve NOVA seviyesini anında öğrenin.">
+  <meta property="og:url" content="https://ozgurguler.tech">
+  
+  <!-- Twitter Kartı -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="What Am I Eating? | Market Ürünleri İnceleme Aracı">
+  <meta name="twitter:description" content="Katkı maddelerini ve gıda işlenmişlik seviyesini saniyeler içinde şeffafça öğrenin.">
+
+  <!-- Schema.org JSON-LD (Arama motorlarına bu sitenin ne olduğunu anlatır) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "What Am I Eating?",
+    "alternateName": "Gıda Barkod Searchma",
+    "description": "Tüketiciler için market ürünlerinin besin değerlerini, katkı maddelerini ve işlenmişlik seviyesini (NOVA & Nutri-Score) analiz eden ücretsiz ve açık kaynak verili web aracı.",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "TRY"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Özgür Güler",
+      "url": "https://ozgurguler.tech"
+    }
+  }
+  </script>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind Ayarları -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.5s ease-out forwards',
+            'slide-up': 'slideUp 0.5s ease-out forwards',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideUp: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #09090b;
+      color: #e4e4e7;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::selection {
+      background-color: rgba(245, 158, 11, 0.3);
+      color: #fde68a;
+    }
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #09090b;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #3f3f46;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #52525b;
+    }
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+  </style>
+</head>
+<body class="min-h-[100dvh] flex flex-col">
+
+  <!-- Header -->
+  <header class="pt-12 pb-8 px-4 flex flex-col items-center text-center">
+    <div class="mb-6">
+      <img src="/logo.png" alt="Ne Yiyorum Logo" class="w-24 h-24 md:w-28 md:h-28 object-contain mx-auto rounded-3xl" />
+    </div>
+    <h1 class="text-3xl md:text-5xl font-semibold tracking-tight text-white mb-4">
+      What Am I Eating?
+    </h1>
+    <p class="text-zinc-400 max-w-lg leading-relaxed text-sm md:text-base">
+      Tükettiğiniz ürünlerin adını veya barkodunu aratın. Katkı maddelerini, işlenmişlik seviyesini ve besin değerlerini şeffafça inceleyin.
+    </p>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 w-full max-w-5xl mx-auto px-4 pb-20">
+    
+    <!-- Search Form -->
+    <form id="search-form" class="relative max-w-2xl mx-auto mb-12" aria-label="Ürün Arama Formu">
+      <div class="relative flex items-center w-full glass-panel rounded-full overflow-hidden transition-all focus-within:border-amber-500/50 focus-within:bg-white/10">
+        <div class="pl-6 text-zinc-500" aria-hidden="true">
+          <i data-lucide="search" class="w-5 h-5"></i>
+        </div>
+        <input
+          type="text"
+          id="search-input"
+          class="w-full py-4 pl-4 pr-4 bg-transparent outline-none text-white placeholder:text-zinc-500 text-base"
+          placeholder="Örn: Fanta, Çikolata veya 8690504..."
+          autocomplete="off"
+          aria-label="Ürün adı veya barkod girin"
+        />
+        <button
+          type="submit"
+          id="search-btn"
+          aria-label="Ürün Search"
+          class="bg-amber-500 hover:bg-amber-400 text-zinc-950 font-medium py-4 px-8 transition-colors flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Search
+        </button>
+      </div>
+      <div class="flex justify-center mt-3">
+        <button type="button" id="scan-btn" class="inline-flex items-center gap-2 bg-zinc-800 hover:bg-zinc-700 text-white px-4 py-2 rounded-xl text-sm" aria-label="Scan Barcode">
+          <i data-lucide="scan-line" class="w-4 h-4"></i>
+          Scan Barcode
+        </button>
+      </div>
+      <input type="file" id="barcode-file" accept="image/*" capture="environment" class="hidden">
+    </form>
+    <div id="suggestions" class="hidden max-w-2xl mx-auto -mt-8 mb-8 glass-panel rounded-2xl p-2"></div>
+
+    <!-- Error Message Container -->
+    <section id="error-container" class="hidden max-w-2xl mx-auto bg-rose-500/10 border border-rose-500/20 rounded-2xl p-6 flex items-start gap-4 animate-slide-up mb-8" aria-live="polite">
+      <i data-lucide="alert-circle" class="text-rose-400 w-6 h-6 flex-shrink-0 mt-0.5" aria-hidden="true"></i>
+      <div>
+        <h3 id="error-title" class="font-medium text-rose-200 text-lg mb-1">Hata</h3>
+        <p id="error-desc" class="text-rose-300/70 text-sm leading-relaxed"></p>
+      </div>
+    </section>
+
+    <!-- Loading Skeleton (Hidden by default) -->
+    <section id="loading-skeleton" class="hidden gap-4 animate-fade-in mb-8" aria-hidden="true">
+      <!-- Generated via JS -->
+    </section>
+
+    <!-- Multi-results List -->
+    <section id="results-container" class="hidden animate-slide-up" aria-label="Arama Sonuçları">
+      <h2 id="results-count" class="text-sm font-medium text-zinc-500 mb-6 uppercase tracking-wider"></h2>
+      <div id="results-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <!-- Cards injected via JS -->
+      </div>
+    </section>
+
+    <!-- Single Product Detail -->
+    <article id="product-detail-container" class="hidden animate-zoom-in max-w-4xl mx-auto animate-slide-up" aria-label="Ürün Detayları">
+      <button 
+        id="back-btn"
+        aria-label="Arama sonuçlarına geri dön"
+        class="hidden items-center gap-2 text-zinc-400 hover:text-white mb-8 transition-colors text-sm font-medium"
+      >
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        Sonuçlara Dön
+      </button>
+
+      <div class="glass-panel rounded-[2rem] overflow-hidden">
+        <!-- Header: Image & Title -->
+        <header class="grid md:grid-cols-[1fr_2fr] border-b border-white/5">
+          <div class="bg-black/20 p-8 flex items-center justify-center relative min-h-[300px]" id="detail-image-container">
+            <!-- Image injected via JS -->
+          </div>
+          
+          <div class="p-8 md:p-12 flex flex-col justify-center">
+            <span id="detail-brand" class="text-amber-400 font-semibold tracking-widest text-xs uppercase mb-3 block"></span>
+            <h2 id="detail-name" class="text-3xl md:text-4xl font-semibold text-white mb-6 leading-tight"></h2>
+            <div class="flex items-center gap-3">
+              <span id="detail-barcode" class="text-zinc-400 font-mono text-xs bg-black/30 border border-white/5 px-3 py-1.5 rounded-lg"></span>
+            </div>
+          </div>
+        </header>
+
+        <!-- Scores: Nutri-Score & NOVA -->
+        <section class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-white/5 border-b border-white/5 bg-black/10">
+          <div class="p-8">
+            <div class="flex items-center gap-2 mb-6">
+              <h3 class="font-medium text-zinc-300 text-sm tracking-wide uppercase">Nutri-Score</h3>
+            </div>
+            <div id="detail-nutriscore" class="flex items-center gap-5"></div>
+          </div>
+          <div class="p-8">
+            <div class="flex items-center gap-2 mb-6">
+              <h3 class="font-medium text-zinc-300 text-sm tracking-wide uppercase">İşlenmişlik (NOVA)</h3>
+            </div>
+            <div id="detail-nova" class="flex items-center gap-5"></div>
+          </div>
+        </section>
+
+        <!-- Additives & Ingredients -->
+        <section class="p-8 md:p-12 space-y-12">
+          <div>
+            <h3 class="text-lg font-medium text-white flex items-center gap-3 mb-6">
+              <i id="additives-icon" data-lucide="alert-circle" class="w-5 h-5"></i>
+              E-Kodları & Katkı Maddeleri
+            </h3>
+            <div id="detail-additives"></div>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-medium text-white mb-4">What Am I Eating? Yorumu</h3>
+            <div id="detail-summary" class="mb-6"></div>
+            <h3 class="text-lg font-medium text-white mb-4">Besin Özeti</h3>
+            <div id="detail-nutrition-summary" class="mb-8"></div>
+            <h3 class="text-lg font-medium text-white mb-4">Etiket İçeriği</h3>
+            <div id="detail-ingredients"></div>
+          </div>
+        </section>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-auto py-8 text-center border-t border-white/5">
+    <a 
+      href="https://ozgurguler.tech" 
+      target="_blank" 
+      rel="noopener noreferrer"
+      class="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-amber-400 transition-colors"
+      aria-label="Özgür Güler'in kişisel web sitesini ziyaret et"
+    >
+      Özgür Güler tarafından yapıldı
+      <i data-lucide="external-link" class="w-3.5 h-3.5" aria-hidden="true"></i>
+    </a>
+  </footer>
+
+  <!-- Application Logic -->
+  <script>
+    // --- Data Dictionaries & Config ---
+    const ADDITIVES_DICT = {
+      "E102": "Tartrazin (Renklendirici - Alerjik reaksiyonlara sebep olabilir)",
+      "E129": "Allura Red AC (Renklendirici - Çocuklarda dikkat eksikliği şüphesi)",
+      "E150A": "Sade Karamel (Renklendirici)",
+      "E150C": "Amonyak Karamel (Renklendirici)",
+      "E150D": "Amonyum Sülfit Karamel (Renklendirici)",
+      "E171": "Titanyum Dioksit (Beyazlatıcı/Renklendirici - Bazı ülkelerde yasaklı)",
+      "E202": "Potasyum Sorbat (Koruyucu madde)",
+      "E211": "Sodyum Benzoat (Koruyucu madde - Askorbik asit ile birleştiğinde tartışmalı)",
+      "E220": "Kükürt Dioksit (Koruyucu madde)",
+      "E250": "Sodyum Nitrit (Koruyucu madde - Et ürünlerinde bulunur)",
+      "E300": "Askorbik Asit (C Vitamini / Antioksidan)",
+      "E322": "Lesitin (Emülgatör - Genellikle zararsız)",
+      "E330": "Sitrik Asit (Asitlik düzenleyici / Koruyucu)",
+      "E407": "Karragenan (Kıvam artırıcı - Sindirim sorunları yaratabileceği tartışmalı)",
+      "E412": "Guar Gam (Kıvam artırıcı)",
+      "E415": "Ksantan Gam (Kıvam artırıcı)",
+      "E471": "Yağ Asitlerinin Mono ve Digliseritleri (Emülgatör)",
+      "E621": "Monosodyum Glutamat / MSG (Lezzet artırıcı - Tüketimi tartışmalı)",
+      "E951": "Aspartam (Yapay tatlandırıcı)",
+      "E955": "Sukraloz (Yapay tatlandırıcı)",
+    };
+
+    let globalProductsList = [];
+    let isShowingList = false;
+
+    // --- DOM Elements ---
+    const form = document.getElementById('search-form');
+    const input = document.getElementById('search-input');
+    const btn = document.getElementById('search-btn');
+    const errorContainer = document.getElementById('error-container');
+    const errorTitle = document.getElementById('error-title');
+    const errorDesc = document.getElementById('error-desc');
+    const loadingSkeleton = document.getElementById('loading-skeleton');
+    const resultsContainer = document.getElementById('results-container');
+    const resultsGrid = document.getElementById('results-grid');
+    const resultsCount = document.getElementById('results-count');
+    const detailContainer = document.getElementById('product-detail-container');
+    const backBtn = document.getElementById('back-btn');
+    const suggestions = document.getElementById('suggestions');
+    const recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+    let warmupController = null;
+
+    // --- Initialize Icons ---
+    lucide.createIcons();
+
+    input.addEventListener('input', () => {
+      const q = input.value.toLowerCase().trim();
+      if (!q) {
+        suggestions.innerHTML = recentSearches.slice(-5).reverse().map(s=>`<button type="button" class="block w-full text-left p-2 hover:bg-white/10 rounded">${s}</button>`).join('');
+        suggestions.classList.toggle('hidden', recentSearches.length===0);
+        return;
+      }
+      const matches = recentSearches.filter(x => x.toLowerCase().includes(q)).slice().reverse().slice(0,5);
+      suggestions.innerHTML=matches.map(s=>`<button type="button" class="block w-full text-left p-2 hover:bg-white/10 rounded">${s}</button>`).join('');
+      suggestions.classList.toggle('hidden',matches.length===0);
+
+      if (q.length >= 3) {
+        try {
+          if (warmupController) warmupController.abort();
+          warmupController = new AbortController();
+          fetch(`https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=12`, {
+            signal: warmupController.signal
+          }).catch(()=>{});
+        } catch {}
+      }
+    });
+
+    suggestions.addEventListener('click',e=>{
+      if(e.target.tagName==='BUTTON'){input.value=e.target.textContent;suggestions.classList.add('hidden');form.requestSubmit();}
+    });
+
+    // --- Generate Skeleton HTML ---
+    loadingSkeleton.innerHTML = Array(8).fill(`
+      <div class="bg-white/5 border border-white/10 rounded-2xl p-4 flex flex-col items-center">
+        <div class="h-32 w-full bg-zinc-800/50 rounded-xl mb-4 animate-pulse"></div>
+        <div class="h-5 w-3/4 bg-zinc-800/50 rounded-md mb-2 animate-pulse"></div>
+        <div class="h-4 w-1/2 bg-zinc-800/50 rounded-md animate-pulse"></div>
+      </div>
+    `).join('');
+
+    // --- UI State Managers (Fixed Skeleton Display Bug) ---
+    function setIdleState() {
+      errorContainer.classList.add('hidden');
+      
+      // Tailwind mantığı ile skeleton gizleme (grid class'ını çıkar, hidden ekle)
+      loadingSkeleton.classList.add('hidden');
+      loadingSkeleton.classList.remove('grid', 'grid-cols-1', 'sm:grid-cols-2', 'md:grid-cols-3', 'lg:grid-cols-4');
+      
+      resultsContainer.classList.add('hidden');
+      detailContainer.classList.add('hidden');
+      btn.disabled = false;
+      btn.innerHTML = 'Search';
+    }
+
+    function setLoadingState() {
+      setIdleState();
+      
+      // Skeletonu gösterirken grid yapısını geri getir
+      loadingSkeleton.classList.remove('hidden');
+      loadingSkeleton.classList.add('grid', 'grid-cols-1', 'sm:grid-cols-2', 'md:grid-cols-3', 'lg:grid-cols-4');
+      
+      btn.disabled = true;
+      btn.innerHTML = 'Aranıyor...';
+    }
+
+    function showError(title, message) {
+      setIdleState();
+      errorTitle.textContent = title;
+      errorDesc.textContent = message;
+      errorContainer.classList.remove('hidden');
+    }
+
+    // --- Data Formatting Helpers ---
+    function formatAdditive(tag) {
+      const codeMatch = tag.match(/e\d+[a-z]*/i);
+      let code = codeMatch ? codeMatch[0].toUpperCase() : tag.replace('en:', '').toUpperCase();
+      
+      if (ADDITIVES_DICT[code]) return `${code} - ${ADDITIVES_DICT[code]}`;
+      const baseCode = code.replace(/[A-Z]$/i, '');
+      if (ADDITIVES_DICT[baseCode]) return `${code} - ${ADDITIVES_DICT[baseCode]}`;
+      return code;
+    }
+
+    function getNutriScoreDetails(grade) {
+      const g = (grade || '').toLowerCase();
+      switch (g) {
+        case 'a': return { letter: 'A', text: 'Besin değeri açısından çok iyi', style: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20' };
+        case 'b': return { letter: 'B', text: 'Besin değeri açısından iyi', style: 'text-green-400 bg-green-400/10 border-green-400/20' };
+        case 'c': return { letter: 'C', text: 'Orta seviye besin değeri', style: 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20' };
+        case 'd': return { letter: 'D', text: 'Besin değeri düşük, sık tüketim önerilmez', style: 'text-orange-400 bg-orange-400/10 border-orange-400/20' };
+        case 'e': return { letter: 'E', text: 'Besin değeri çok düşük, sık tüketim önerilmez', style: 'text-rose-400 bg-rose-400/10 border-rose-400/20' };
+        default: return { letter: '?', text: 'Besin değeri skoru hesaplanamamış', style: 'text-zinc-400 bg-zinc-800/50 border-zinc-700' };
+      }
+    }
+
+    function getNovaDetails(group) {
+      switch (Number(group)) {
+        case 1: return { num: '1', text: 'İşlenmemiş veya az işlenmiş gıda', style: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20' };
+        case 2: return { num: '2', text: 'İşlenmiş mutfak malzemesi (Yağ, şeker, tuz vb.)', style: 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20' };
+        case 3: return { num: '3', text: 'İşlenmiş gıda (Genelde 2-3 bileşenli ürünler)', style: 'text-orange-400 bg-orange-400/10 border-orange-400/20' };
+        case 4: return { num: '4', text: 'Ultra işlenmiş gıda, yoğun katkı maddesi içerir', style: 'text-rose-400 bg-rose-400/10 border-rose-400/20' };
+        default: return { num: '?', text: 'İşlenmişlik seviyesi hesaplanamamış', style: 'text-zinc-400 bg-zinc-800/50 border-zinc-700' };
+      }
+    }
+
+    // --- Render Functions ---
+    function renderResultsList(products) {
+      setIdleState(); // Skeleton temizleniyor
+      products = [...products].sort((a,b)=>{
+        const score=p=>[p.ingredients_text,p.nova_group,p.nutriscore_grade&&p.nutriscore_grade!=='unknown'&&p.nutriscore_grade!=='not-applicable',p.additives_tags?.length,p.nutriments&&Object.keys(p.nutriments).length>5].filter(Boolean).length;
+        return score(b)-score(a);
+      });
+      globalProductsList = products;
+      isShowingList = true;
+      
+      resultsCount.textContent = `Aradığınız Kriterlere Uygun ${products.length} Sonuç Bulundu`;
+      resultsGrid.innerHTML = products.map(item => {
+        const imgUrl = item.image_front_url || item.image_url || '';
+        const name = item.product_name || 'İsimsiz Ürün';
+        const brand = item.brands ? item.brands.split(',')[0] : 'Marka bilinmiyor';
+        const isTR = item.countries_tags?.includes('en:turkey');
+        
+        const imgHtml = imgUrl 
+          ? `<img src="${imgUrl}" alt="${name} görseli" class="max-h-full object-contain group-hover:scale-105 transition-transform duration-500" loading="lazy" />`
+          : `<i data-lucide="package" class="w-10 h-10 text-zinc-700" aria-hidden="true"></i>`;
+
+        const completeness=[item.ingredients_text,item.nova_group,item.nutriscore_grade&&item.nutriscore_grade!=='unknown'&&item.nutriscore_grade!=='not-applicable',item.additives_tags?.length,item.nutriments&&Object.keys(item.nutriments).length>5].filter(Boolean).length;
+        const quality=completeness>=4?'Yüksek':(completeness>=2?'Orta':'Düşük');
+        const badgeHtml = `
+          ${isTR ? `<span class="text-[10px] font-bold tracking-widest uppercase bg-amber-500/10 text-amber-400 py-1.5 px-3 rounded-lg border border-amber-500/20">TÜRKİYE</span>` : ''}
+          <span class="text-[10px] font-bold tracking-widest uppercase bg-cyan-500/10 text-cyan-400 py-1.5 px-3 rounded-lg border border-cyan-500/20">VERİ: ${quality}</span>`;
+
+        return `
+          <button onclick="selectProduct('${item._id}')" aria-label="${name} ürününü detaylı incele" class="bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col items-start text-left hover:bg-white/10 hover:border-white/20 transition-all group w-full">
+            <div class="h-32 w-full bg-black/20 rounded-xl mb-4 overflow-hidden p-2 flex items-center justify-center relative">
+              ${imgHtml}
+            </div>
+            <h3 class="font-medium text-zinc-100 line-clamp-2 w-full leading-snug mb-1">${name}</h3>
+            <p class="text-xs text-zinc-500 w-full truncate mb-3">${brand}</p>
+            ${badgeHtml}
+          </button>
+        `;
+      }).join('');
+      
+      resultsContainer.classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    window.selectProduct = function(productId) {
+      const product = globalProductsList.find(p => p._id === productId) || globalProductsList[0];
+      renderDetail(product);
+    }
+
+    function renderDetail(product) {
+      setIdleState();
+      
+      if (isShowingList && globalProductsList.length > 1) {
+        backBtn.classList.remove('hidden');
+        backBtn.style.display = 'flex';
+      } else {
+        backBtn.classList.add('hidden');
+      }
+
+      // Üst Bilgiler
+      const imgUrl = product.image_front_url || product.image_url;
+      document.getElementById('detail-image-container').innerHTML = imgUrl 
+        ? `<img src="${imgUrl}" alt="${product.product_name} paket görseli" class="max-h-[300px] w-auto object-contain drop-shadow-2xl animate-fade-in" />`
+        : `<div class="flex flex-col items-center text-zinc-600"><i data-lucide="package" class="w-16 h-16 mb-4"></i><span>Görsel Yok</span></div>`;
+      
+      document.getElementById('detail-brand').textContent = product.brands?.split(',')[0] || 'Bilinmeyen Marka';
+      document.getElementById('detail-name').textContent = product.product_name || 'İsimlendirilmemiş Ürün';
+      document.getElementById('detail-barcode').textContent = `KOD: ${product._id}`;
+
+      // Skorlar
+      const ns = getNutriScoreDetails(product.nutriscore_grade);
+      document.getElementById('detail-nutriscore').innerHTML = `
+        <div class="w-16 h-16 rounded-2xl flex items-center justify-center font-bold text-3xl border ${ns.style}" aria-label="Nutri-Score Notu: ${ns.letter}">
+          ${ns.letter.toUpperCase()}
+        </div>
+        <p class="flex-1 text-sm leading-relaxed text-zinc-300">${ns.text}</p>
+      `;
+
+      const nova = getNovaDetails(product.nova_group);
+      document.getElementById('detail-nova').innerHTML = `
+        <div class="w-16 h-16 rounded-2xl flex items-center justify-center font-bold text-3xl border ${nova.style}" aria-label="NOVA Grubu: ${nova.num}">
+          ${nova.num}
+        </div>
+        <p class="flex-1 text-sm leading-relaxed text-zinc-300">${nova.text}</p>
+      `;
+
+      // Katkı Maddeleri
+      const additivesContainer = document.getElementById('detail-additives');
+      const additivesIcon = document.getElementById('additives-icon');
+      
+      if (product.additives_tags && product.additives_tags.length > 0) {
+        additivesIcon.classList.remove('text-emerald-400');
+        additivesIcon.classList.add('text-amber-400');
+        
+        const tagsHtml = product.additives_tags.map(tag => {
+          const formatted = formatAdditive(tag);
+          if (formatted.includes(' - ')) {
+            const [code, desc] = formatted.split(' - ');
+            return `<div class="p-4 rounded-xl bg-black/20 border border-white/5 text-sm flex flex-col">
+                      <span class="font-medium text-zinc-100">${code}</span>
+                      <span class="text-zinc-400 mt-1 leading-relaxed">${desc}</span>
+                    </div>`;
+          }
+          return `<div class="p-4 rounded-xl bg-black/20 border border-white/5 text-sm flex flex-col">
+                    <span class="font-medium text-zinc-100">${formatted}</span>
+                  </div>`;
+        }).join('');
+        additivesContainer.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-2 gap-3">${tagsHtml}</div>`;
+      } else {
+        additivesIcon.classList.remove('text-amber-400');
+        additivesIcon.classList.add('text-emerald-400');
+        additivesIcon.setAttribute('data-lucide', 'check-circle');
+        
+        additivesContainer.innerHTML = `
+          <div class="bg-emerald-400/10 border border-emerald-400/20 rounded-xl p-5 flex items-center gap-4 text-emerald-200/90 text-sm">
+            <p>Veritabanında bu ürüne ait tespit edilmiş bir E-kodu / katkı maddesi bulunmuyor.</p>
+          </div>
+        `;
+      }
+
+      const nutriments = product.nutriments || {};
+            document.getElementById('detail-nutrition-summary').innerHTML = `<div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm"><div class="p-3 rounded-xl bg-black/20">Şeker<br><b>${nutriments.sugars_100g ?? '?'} g</b></div><div class="p-3 rounded-xl bg-black/20">Protein<br><b>${nutriments.proteins_100g ?? '?'} g</b></div><div class="p-3 rounded-xl bg-black/20">Lif<br><b>${nutriments.fiber_100g ?? '?'} g</b></div><div class="p-3 rounded-xl bg-black/20">Tuz<br><b>${nutriments.salt_100g ?? '?'} g</b></div></div><div class='mt-3 text-sm text-zinc-300'>Alerjenler: ${(product.allergens_tags||[]).length ? product.allergens_tags.map(x=>x.split(':').pop()).join(', ') : 'Belirtilmemiş'}<br>Eco-Score: ${(product.ecoscore_grade||'?').toUpperCase()}</div>`;
+      const summaryContainer = document.getElementById('detail-summary');
+      const additiveCount = product.additives_tags?.length || 0;
+      const dataCompleteness = [
+        product.ingredients_text,
+        product.nutriscore_grade && product.nutriscore_grade !== 'unknown' && product.nutriscore_grade !== 'not-applicable',
+        product.nova_group,
+        product.additives_tags?.length,
+        product.nutriments && Object.keys(product.nutriments).length > 5
+      ].filter(Boolean).length;
+
+      let completenessLabel='Düşük';
+      if (dataCompleteness>=4) completenessLabel='Yüksek';
+      else if (dataCompleteness>=2) completenessLabel='Orta';
+      const grade=(product.nutriscore_grade||'').toLowerCase();
+      let risk='🟢';
+      if ((product.nova_group||0)>=4 || ['d','e'].includes(grade)) risk='🔴';
+      else if ((product.nova_group||0)>=3 || ['b','c'].includes(grade)) risk='🟡';
+      let summary=[];
+      if ((product.nova_group||0) >= 4) summary.push('Yüksek derecede işlenmiş bir ürün (NOVA 4).');
+      if (['d','e'].includes(grade)) summary.push('Nutri-Score değeri düşük olduğundan beslenme kalitesi zayıf kabul edilir.');
+      if (additiveCount > 0) summary.push(`Üründe ${additiveCount} katkı maddesi bulunuyor.`);
+      const tags=(product.additives_tags||[]).join(' ');
+      if(tags.includes('e950')) summary.push('E950 (Acesulfam-K) yapay tatlandırıcısı içeriyor.');
+      if(tags.includes('e951')) summary.push('E951 (Aspartam) içeriyor.');
+      if(tags.includes('e150')) summary.push('Karamel renklendirici içeriyor.');
+      if ((nutriments.sugars_100g||0) > 15) summary.push('Şeker miktarı yüksek görünüyor.');
+      if ((nutriments.salt_100g||0) > 1.5) summary.push('Tuz oranı yüksek görünüyor.');
+      if ((nutriments.fiber_100g||0) >= 6) summary.push('Lif içeriği olumlu seviyede.');
+      if ((nutriments.proteins_100g||0) >= 10) summary.push('Protein miktarı dikkat çekici düzeyde.');
+      if(summary.length===0) summary.push('Veriler belirgin bir olumsuz işaret göstermiyor.');
+      if (dataCompleteness <= 1) {
+        risk='⚪';
+        summary.unshift('Bu ürün hakkında veritabanında çok az bilgi bulunduğu için güvenilir değerlendirme yapmak mümkün değil.');
+      }
+      summary.push(risk==='🔴' ? 'Daha az işlenmiş alternatifler tercih edilebilir.' : 'Ara sıra tüketim açısından belirgin bir uyarı görünmüyor.');
+      summaryContainer.innerHTML = `<div class="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-5 text-sm text-zinc-200 leading-relaxed"><div class="font-semibold mb-2">Genel Değerlendirme ${risk}</div><div class="mb-2 text-xs text-zinc-400">Veri Kalitesi: ${completenessLabel}</div>${summary.join(' ')}</div>`;
+
+      // İçindekiler
+      const ingredientsContainer = document.getElementById('detail-ingredients');
+      if (product.ingredients_text) {
+        ingredientsContainer.innerHTML = `<p class="text-zinc-400 leading-relaxed text-sm bg-black/20 p-6 rounded-2xl border border-white/5">${product.ingredients_text}</p>`;
+      } else {
+        ingredientsContainer.innerHTML = `<p class="text-zinc-600 italic text-sm">İçindekiler bilgisi henüz sisteme girilmemiş.</p>`;
+      }
+
+      detailContainer.classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    // --- Search Logic ---
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const query = input.value.trim();
+      if (!query) return;
+      const normalize = s => (s||'').toLowerCase().replace(/[ç]/g,'c').replace(/[ğ]/g,'g').replace(/[ı]/g,'i').replace(/[ö]/g,'o').replace(/[ş]/g,'s').replace(/[ü]/g,'u').replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();
+      const normalizedQuery = normalize(query);
+      const apiQuery = normalizedQuery;
+
+      localStorage.setItem('recentSearches', JSON.stringify([...new Set([...recentSearches, query])].slice(-20)));
+      setLoadingState();
+      isShowingList = false;
+      globalProductsList = [];
+
+      const isBarcode = /^\d{7,14}$/.test(query);
+
+      try {
+        if (isBarcode) {
+          // Barkod Araması (v0 API'si 404 yerine 200 döner, CORS "Failed to fetch" hatalarını önler)
+          const res = await fetch(`https://world.openfoodfacts.org/api/v0/product/${query}.json`, {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json'
+            }
+          });
+          
+          if (!res.ok) throw new Error('API yanıt vermedi.');
+          const data = await res.json();
+          
+          if (data.status === 1 && data.product) {
+            globalProductsList = [data.product];
+            renderDetail(data.product);
+          } else {
+            showError("Ürün Bulunamadı", "Bu barkoda sahip ürün veritabanında henüz yok. Açık kaynaklı bir sistem olduğu için eksiklikler normaldir.");
+          }
+        } else {
+          // İsim Araması
+          const searchUrl = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(apiQuery)}&search_simple=1&action=process&json=1`;
+          let data = null;
+          let lastError = null;
+          for (let attempt = 0; attempt < 3; attempt++) {
+            try {
+              const res = await fetch(searchUrl, {
+                method: 'GET',
+                headers: { 'Accept': 'application/json' }
+              });
+              if (!res.ok) throw new Error('search failed');
+              data = await res.json();
+              if (data) break;
+            } catch (e) {
+              lastError = e;
+              await new Promise(r => setTimeout(r, 300 * (attempt + 1)));
+            }
+          }
+          if (!data) throw lastError || new Error('Arama sunucusuna ulaşılamadı.');
+
+          let products = data.products || [];
+
+          if (products.length === 0) {
+            const fallbackUrl = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=*&search_simple=0&action=process&json=1&page_size=100`;
+            const fallbackRes = await fetch(fallbackUrl);
+            const fallbackData = await fallbackRes.json();
+            const q = query.toLocaleLowerCase('tr');
+            products = (fallbackData.products || []).filter(p => {
+              const name = normalize(p.product_name || p.product_name_tr || '');
+              const words = normalizedQuery.split(' ').filter(w=>w.length>1);
+              const score = words.filter(w=>name.includes(w)).length;
+              return score >= Math.max(1, Math.ceil(words.length/2));
+            });
+
+            if (products.length === 0) {
+              const words = normalizedQuery.split(' ').filter(w=>w.length>2);
+              for (const word of words) {
+                const wordResults = (fallbackData.products || []).filter(p => {
+                  const name = normalize(p.product_name || p.product_name_tr || '');
+                  return name.includes(word);
+                });
+                products.push(...wordResults);
+              }
+              products = [...new Map(products.map(p => [p.code || p._id || p.product_name, p])).values()];
+            }
+          }
+
+          if (products.length > 0) {
+const normalize=s=>(s||'').toLowerCase().replace(/[ç]/g,'c').replace(/[ğ]/g,'g').replace(/[ı]/g,'i').replace(/[ö]/g,'o').replace(/[ş]/g,'s').replace(/[ü]/g,'u').replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();
+            const sortedProducts = products.sort((a, b) => {
+              const aTR = a.countries_tags?.includes('en:turkey');
+              const bTR = b.countries_tags?.includes('en:turkey');
+              if (aTR === bTR) return 0;
+              return aTR ? -1 : 1;
+            });
+
+            const topResults = sortedProducts.slice(0, 12);
+
+            if (topResults.length === 1) {
+              globalProductsList = topResults;
+              renderDetail(topResults[0]);
+            } else {
+              renderResultsList(topResults);
+            }
+          } else {
+            showError("Ürün Bulunamadı", `"${query}" araması için sonuç bulunamadı. Lütfen farklı bir isim veya doğrudan barkod ile tekrar deneyin.`);
+          }
+        }
+      } catch (err) {
+        console.error("Fetch Error:", err);
+        showError("Ürün Bulunamadı", "Aradığınız ürünü bulamadık. Yazımı kontrol edin veya daha genel bir arama deneyin. Örnekler: Ülker, süt, cola, maya, bisküvi. Barkod ile arama yapmak da daha kesin sonuç verir.");
+      }
+    });
+
+    backBtn.addEventListener('click', () => {
+      renderResultsList(globalProductsList);
+    });
+
+  </script>
+<script src="https://unpkg.com/@zxing/library@latest"></script>
+<script>
+const scanBtn=document.getElementById('scan-btn');
+const barcodeFile=document.getElementById('barcode-file');
+if(scanBtn&&barcodeFile){
+scanBtn.onclick=async()=>{
+if('BarcodeDetector' in window){
+ try{
+  const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});
+  const video=document.createElement('video');
+  video.srcObject=stream; await video.play();
+  const detector=new BarcodeDetector({formats:['ean_13','ean_8','upc_a','upc_e']});
+  const timer=setInterval(async()=>{
+   const codes=await detector.detect(video);
+   if(codes.length){
+    clearInterval(timer); stream.getTracks().forEach(t=>t.stop());
+    document.getElementById('search-input').value=codes[0].rawValue;
+    document.getElementById('search-form').requestSubmit();
+   }
+  },500);
+ }catch(e){barcodeFile.click();}
+}else{barcodeFile.click();}
+};
+barcodeFile.onchange=async(e)=>{
+ const file=e.target.files?.[0]; if(!file) return;
+ try{
+  const img=new Image();
+  img.src=URL.createObjectURL(file);
+  await img.decode();
+  const reader=new ZXing.BrowserMultiFormatReader();
+  const res=await reader.decodeFromImageElement(img);
+  document.getElementById('search-input').value=res.text;
+  document.getElementById('search-form').requestSubmit();
+ }catch(err){alert('Barkod okunamadı. Daha net bir fotoğraf deneyin.');}
+};
+}
+</script>
+</body>
+</html>
