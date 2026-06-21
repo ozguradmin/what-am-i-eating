@@ -1,5 +1,7 @@
 # What Am I Eating?
 
+[![Open Source](https://img.shields.io/badge/Open%20Source-Yes-green)](https://github.com/ozguradmin/what-am-i-eating)
+
 Open-source food product analyzer built on OpenFoodFacts.
 
 Analyze packaged foods by barcode or product name and instantly review:
@@ -70,3 +72,7 @@ Issues, pull requests and feature suggestions are welcome.
 ## License
 
 MIT
+
+## Disclaimer
+
+This project provides educational information based on OpenFoodFacts data and should not be considered medical advice.
