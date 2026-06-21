@@ -1,6 +1,6 @@
 # FoodLens
 
-Open-source food product analyzer powered by OpenFoodFacts.
+Open-source FoodLens product analyzer powered by OpenFoodFacts.
 
 FoodLens helps people understand packaged food products in seconds by turning raw nutrition and ingredient data into plain-language explanations.
 
