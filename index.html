@@ -243,9 +243,9 @@
           <div>
             <h3 class="text-lg font-medium text-white mb-4">What Am I Eating? Yorumu</h3>
             <div id="detail-summary" class="mb-6"></div>
-            <h3 class="text-lg font-medium text-white mb-4">Besin Özeti</h3>
+            <h3 class="text-lg font-medium text-white mb-4">Nutrition Summary</h3>
             <div id="detail-nutrition-summary" class="mb-8"></div>
-            <h3 class="text-lg font-medium text-white mb-4">Etiket İçeriği</h3>
+            <h3 class="text-lg font-medium text-white mb-4">Ingredients</h3>
             <div id="detail-ingredients"></div>
           </div>
         </section>
@@ -441,7 +441,7 @@
         const completeness=[item.ingredients_text,item.nova_group,item.nutriscore_grade&&item.nutriscore_grade!=='unknown'&&item.nutriscore_grade!=='not-applicable',item.additives_tags?.length,item.nutriments&&Object.keys(item.nutriments).length>5].filter(Boolean).length;
         const quality=completeness>=4?'Yüksek':(completeness>=2?'Orta':'Düşük');
         const badgeHtml = `
-          ${isTR ? `<span class="text-[10px] font-bold tracking-widest uppercase bg-amber-500/10 text-amber-400 py-1.5 px-3 rounded-lg border border-amber-500/20">TÜRKİYE</span>` : ''}
+          ${isTR ? `<span class="text-[10px] font-bold tracking-widest uppercase bg-amber-500/10 text-amber-400 py-1.5 px-3 rounded-lg border border-amber-500/20">TURKEY</span>` : ''}
           <span class="text-[10px] font-bold tracking-widest uppercase bg-cyan-500/10 text-cyan-400 py-1.5 px-3 rounded-lg border border-cyan-500/20">VERİ: ${quality}</span>`;
 
         return `
@@ -573,7 +573,7 @@
         summary.unshift('Bu ürün hakkında veritabanında çok az bilgi bulunduğu için güvenilir değerlendirme yapmak mümkün değil.');
       }
       summary.push(risk==='🔴' ? 'Daha az işlenmiş alternatifler tercih edilebilir.' : 'Ara sıra tüketim açısından belirgin bir uyarı görünmüyor.');
-      summaryContainer.innerHTML = `<div class="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-5 text-sm text-zinc-200 leading-relaxed"><div class="font-semibold mb-2">Genel Değerlendirme ${risk}</div><div class="mb-2 text-xs text-zinc-400">Veri Kalitesi: ${completenessLabel}</div>${summary.join(' ')}</div>`;
+      summaryContainer.innerHTML = `<div class="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-5 text-sm text-zinc-200 leading-relaxed"><div class="font-semibold mb-2">Genel Değerlendirme ${risk}</div><div class="mb-2 text-xs text-zinc-400">Data Quality: ${completenessLabel}</div>${summary.join(' ')}</div>`;
 
       // İçindekiler
       const ingredientsContainer = document.getElementById('detail-ingredients');
@@ -620,7 +620,7 @@
             globalProductsList = [data.product];
             renderDetail(data.product);
           } else {
-            showError("Ürün Bulunamadı", "Bu barkoda sahip ürün veritabanında henüz yok. Açık kaynaklı bir sistem olduğu için eksiklikler normaldir.");
+            showError("Product Not Found", "Bu barkoda sahip ürün veritabanında henüz yok. Açık kaynaklı bir sistem olduğu için eksiklikler normaldir.");
           }
         } else {
           // İsim Araması
@@ -688,12 +688,12 @@ const normalize=s=>(s||'').toLowerCase().replace(/[ç]/g,'c').replace(/[ğ]/g,'g
               renderResultsList(topResults);
             }
           } else {
-            showError("Ürün Bulunamadı", `"${query}" araması için sonuç bulunamadı. Lütfen farklı bir isim veya doğrudan barkod ile tekrar deneyin.`);
+            showError("Product Not Found", `"${query}" araması için sonuç bulunamadı. Lütfen farklı bir isim veya doğrudan barkod ile tekrar deneyin.`);
           }
         }
       } catch (err) {
         console.error("Fetch Error:", err);
-        showError("Ürün Bulunamadı", "Aradığınız ürünü bulamadık. Yazımı kontrol edin veya daha genel bir arama deneyin. Örnekler: Ülker, süt, cola, maya, bisküvi. Barkod ile arama yapmak da daha kesin sonuç verir.");
+        showError("Product Not Found", "Aradığınız ürünü bulamadık. Yazımı kontrol edin veya daha genel bir arama deneyin. Örnekler: Ülker, süt, cola, maya, bisküvi. Barkod ile arama yapmak da daha kesin sonuç verir.");
       }
     });
 
