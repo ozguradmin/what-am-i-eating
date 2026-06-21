@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- SEO & Meta Tags -->
+  <!-- Temel SEO & Meta Etiketleri -->
   <title>What Am I Eating? | Food Product Analyzer</title>
-  <meta name="description" content="Search food products by name or barcode. Review additives, NOVA processing levels, and Nutri-Score nutrition ratings.">
-  <meta name="keywords" content="Nutri-Score hesaplama, NOVA grubu, gıda katkı maddeleri, E-kodları zararları, barkod sorgulama, sağlıklı beslenme, product inceleme, gıda dedektifi, gerçek sağlık skoru, barkod okuyucu">
+  <meta name="description" content="Search for the name or barcode of the products you consume. Transparently examine additives (E-codes), NOVA processing level, and Nutri-Score nutritional values. Your free What Am I Eating analysis tool.">
+  <meta name="keywords" content="Nutri-Score calculation, NOVA group, food additives, E-numbers side effects, barcode lookup, healthy nutrition, product review, food detective, real health score, barcode scanner">
   <meta name="author" content="Özgür Güler">
   <meta name="robots" content="index, follow">
   
@@ -17,14 +17,14 @@
   <!-- Open Graph (Sosyal Medya Paylaşım Görünümü) -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="What Am I Eating?">
-  <meta property="og:title" content="What Am I Eating? | Food Product Analysis">
-  <meta property="og:description" content="Search by barcode or product name to instantly review additives, Nutri-Score, and NOVA processing levels.">
+  <meta property="og:title" content="What Am I Eating? | Barcode and Product Analysis">
+  <meta property="og:description" content="Instantly learn the additives, Nutri-Score, and NOVA level of market products by searching their barcode or name.">
   <meta property="og:url" content="https://ozgurguler.tech">
   
   <!-- Twitter Kartı -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="What Am I Eating? | Food Product Analyzer">
-  <meta name="twitter:description" content="Understand additives and food processing levels in seconds.">
+  <meta name="twitter:description" content="Transparently learn additives and food processing levels in seconds.">
 
   <!-- Schema.org JSON-LD (Search motorlarına bu sitenin ne olduğunu anlatır) -->
   <script type="application/ld+json">
@@ -33,7 +33,7 @@
     "@type": "WebApplication",
     "name": "What Am I Eating?",
     "alternateName": "Food Barcode Search",
-    "description": "Free and open-source web app that analyzes nutrition data, additives, and processing levels (NOVA & Nutri-Score).",
+    "description": "A free and open-source data web tool for consumers to analyze the nutritional values, additives, and processing level (NOVA & Nutri-Score) of grocery products.",
     "applicationCategory": "HealthApplication",
     "operatingSystem": "All",
     "offers": {
@@ -119,7 +119,7 @@
   <!-- Header -->
   <header class="pt-12 pb-8 px-4 flex flex-col items-center text-center">
     <div class="mb-6">
-      <img src="/logo.png" alt="Ne Yiyorum Logo" class="w-24 h-24 md:w-28 md:h-28 object-contain mx-auto rounded-3xl" />
+      <img src="/logo.png" alt="What Am I Eating Logo" class="w-24 h-24 md:w-28 md:h-28 object-contain mx-auto rounded-3xl" />
     </div>
     <h1 class="text-3xl md:text-5xl font-semibold tracking-tight text-white mb-4">
       What Am I Eating?
@@ -170,7 +170,9 @@
       <i data-lucide="alert-circle" class="text-rose-400 w-6 h-6 flex-shrink-0 mt-0.5" aria-hidden="true"></i>
       <div>
         <h3 id="error-title" class="font-medium text-rose-200 text-lg mb-1">Error</h3>
-        <p id="error-desc" class="text-rose-300/70 text-sm leading-relaxed"></p>
+        <p id="error-desc" clas
+```html
+text-rose-300/70 text-sm leading-relaxed"></p>
       </div>
     </section>
 
@@ -191,7 +193,7 @@
     <article id="product-detail-container" class="hidden animate-zoom-in max-w-4xl mx-auto animate-slide-up" aria-label="Product Details">
       <button 
         id="back-btn"
-        aria-label="Back to search results"
+        aria-label="Go back to search results"
         class="hidden items-center gap-2 text-zinc-400 hover:text-white mb-8 transition-colors text-sm font-medium"
       >
         <i data-lucide="arrow-left" class="w-4 h-4"></i>
@@ -241,7 +243,7 @@
           </div>
 
           <div>
-            <h3 class="text-lg font-medium text-white mb-4">What Am I Eating? Analysis</h3>
+            <h3 class="text-lg font-medium text-white mb-4">What Am I Eating? Comment</h3>
             <div id="detail-summary" class="mb-6"></div>
             <h3 class="text-lg font-medium text-white mb-4">Nutrition Summary</h3>
             <div id="detail-nutrition-summary" class="mb-8"></div>
@@ -261,9 +263,9 @@
       target="_blank" 
       rel="noopener noreferrer"
       class="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-amber-400 transition-colors"
-      aria-label="Özgür Güler'in kişisel web sitesini ziyaret et"
+      aria-label="Visit Özgür Güler's personal website"
     >
-      Özgür Güler Created by
+      Created by Özgür Güler
       <i data-lucide="external-link" class="w-3.5 h-3.5" aria-hidden="true"></i>
     </a>
   </footer>
@@ -272,26 +274,26 @@
   <script>
     // --- Data Dictionaries & Config ---
     const ADDITIVES_DICT = {
-      "E102": "Tartrazin (Renklendirici - Alerjik reaksiyonlara sebep olabilir)",
-      "E129": "Allura Red AC (Renklendirici - Çocuklarda dikkat eksikliği şüphesi)",
-      "E150A": "Sade Karamel (Renklendirici)",
-      "E150C": "Amonyak Karamel (Renklendirici)",
-      "E150D": "Amonyum Sülfit Karamel (Renklendirici)",
-      "E171": "Titanyum Dioksit (Beyazlatıcı/Renklendirici - Bazı ülkelerde yasaklı)",
-      "E202": "Potasyum Sorbat (Koruyucu madde)",
-      "E211": "Sodyum Benzoat (Koruyucu madde - Askorbik asit ile birleştiğinde tartışmalı)",
-      "E220": "Kükürt Dioksit (Koruyucu madde)",
-      "E250": "Sodyum Nitrit (Koruyucu madde - Et productlerinde bulunur)",
-      "E300": "Askorbik Asit (C Vitamini / Antioksidan)",
-      "E322": "Lesitin (Emülgatör - Genellikle zararsız)",
-      "E330": "Sitrik Asit (Asitlik düzenleyici / Koruyucu)",
-      "E407": "Karragenan (Kıvam artırıcı - Sindirim sorunları yaratabileceği tartışmalı)",
-      "E412": "Guar Gam (Kıvam artırıcı)",
-      "E415": "Ksantan Gam (Kıvam artırıcı)",
-      "E471": "Yağ Asitlerinin Mono ve Digliseritleri (Emülgatör)",
-      "E621": "Monosodyum Glutamat / MSG (Lezzet artırıcı - Tüketimi tartışmalı)",
-      "E951": "Aspartam (Yapay tatlandırıcı)",
-      "E955": "Sukraloz (Yapay tatlandırıcı)",
+      "E102": "Tartrazine (Coloring - May cause allergic reactions)",
+      "E129": "Allura Red AC (Coloring - Suspected ADHD in children)",
+      "E150A": "Plain Caramel (Coloring)",
+      "E150C": "Ammonia Caramel (Coloring)",
+      "E150D": "Ammonium Sulfite Caramel (Coloring)",
+      "E171": "Titanium Dioxide (Whitener/Coloring - Banned in some countries)",
+      "E202": "Potassium Sorbate (Preservative)",
+      "E211": "Sodium Benzoate (Preservative - Controversial when combined with ascorbic acid)",
+      "E220": "Sulfur Dioxide (Preservative)",
+      "E250": "Sodium Nitrite (Preservative - Found in meat products)",
+      "E300": "Ascorbic Acid (Vitamin C / Antioxidant)",
+      "E322": "Lecithin (Emulsifier - Generally harmless)",
+      "E330": "Citric Acid (Acidity regulator / Preservative)",
+      "E407": "Carrageenan (Thickener - Controversial as it may cause digestive issues)",
+      "E412": "Guar Gum (Thickener)",
+      "E415": "Xanthan Gum (Thickener)",
+      "E471": "Mono- and Diglycerides of Fatty Acids (Emulsifier)",
+      "E621": "Monosodium Glutamate / MSG (Flavor enhancer - Controversial consumption)",
+      "E951": "Aspartame (Artificial sweetener)",
+      "E955": "Sucralose (Artificial sweetener)",
     };
 
     let globalProductsList = [];
@@ -320,7 +322,9 @@
     input.addEventListener('input', () => {
       const q = input.value.toLowerCase().trim();
       if (!q) {
-        suggestions.innerHTML = recentSearches.slice(-5).reverse().map(s=>`<button type="button" class="block w-full text-left p-2 hover:bg-white/10 rounded">${s}</button>`).join('');
+        suggestions.innerHTML = recentSearches.slice(-5).r
+```
+everse().map(s=>`<button type="button" class="block w-full text-left p-2 hover:bg-white/10 rounded">${s}</button>`).join('');
         suggestions.classList.toggle('hidden', recentSearches.length===0);
         return;
       }
@@ -356,7 +360,7 @@
     function setIdleState() {
       errorContainer.classList.add('hidden');
       
-      // Tailwind mantığı ile skeleton gizleme (grid class'ını çıkar, hidden ekle)
+      // Hide skeleton with Tailwind logic (remove grid class, add hidden)
       loadingSkeleton.classList.add('hidden');
       loadingSkeleton.classList.remove('grid', 'grid-cols-1', 'sm:grid-cols-2', 'md:grid-cols-3', 'lg:grid-cols-4');
       
@@ -369,7 +373,7 @@
     function setLoadingState() {
       setIdleState();
       
-      // Skeletonu gösterirken grid yapısını geri getir
+      // Bring back grid structure when showing skeleton
       loadingSkeleton.classList.remove('hidden');
       loadingSkeleton.classList.add('grid', 'grid-cols-1', 'sm:grid-cols-2', 'md:grid-cols-3', 'lg:grid-cols-4');
       
@@ -395,31 +399,33 @@
       return code;
     }
 
+    // --- Format Nutri-Score ---
     function getNutriScoreDetails(grade) {
       const g = (grade || '').toLowerCase();
       switch (g) {
         case 'a': return { letter: 'A', text: 'Excellent nutritional quality', style: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20' };
         case 'b': return { letter: 'B', text: 'Good nutritional quality', style: 'text-green-400 bg-green-400/10 border-green-400/20' };
-        case 'c': return { letter: 'C', text: 'Medium seviye besin değeri', style: 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20' };
+        case 'c': return { letter: 'C', text: 'Medium nutritional quality', style: 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20' };
         case 'd': return { letter: 'D', text: 'Low nutritional quality', style: 'text-orange-400 bg-orange-400/10 border-orange-400/20' };
         case 'e': return { letter: 'E', text: 'Very low nutritional quality', style: 'text-rose-400 bg-rose-400/10 border-rose-400/20' };
         default: return { letter: '?', text: 'Nutrition score unavailable', style: 'text-zinc-400 bg-zinc-800/50 border-zinc-700' };
       }
     }
 
+    // --- Format Nova Group ---
     function getNovaDetails(group) {
       switch (Number(group)) {
         case 1: return { num: '1', text: 'Unprocessed or minimally processed food', style: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20' };
-        case 2: return { num: '2', text: 'İşlenmiş mutfak malzemesi (Yağ, şeker, tuz vb.)', style: 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20' };
-        case 3: return { num: '3', text: 'İşlenmiş gıda (Genelde 2-3 bileşenli productler)', style: 'text-orange-400 bg-orange-400/10 border-orange-400/20' };
+        case 2: return { num: '2', text: 'Processed culinary ingredients (Oil, sugar, salt, etc.)', style: 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20' };
+        case 3: return { num: '3', text: 'Processed food (Usually products with 2-3 ingredients)', style: 'text-orange-400 bg-orange-400/10 border-orange-400/20' };
         case 4: return { num: '4', text: 'Ultra-processed food with many additives', style: 'text-rose-400 bg-rose-400/10 border-rose-400/20' };
-        default: return { num: '?', text: 'Processing seviyesi hesaplanamamış', style: 'text-zinc-400 bg-zinc-800/50 border-zinc-700' };
+        default: return { num: '?', text: 'Processing level could not be calculated', style: 'text-zinc-400 bg-zinc-800/50 border-zinc-700' };
       }
     }
 
     // --- Render Functions ---
     function renderResultsList(products) {
-      setIdleState(); // Skeleton temizleniyor
+      setIdleState(); // Skeleton is cleared
       products = [...products].sort((a,b)=>{
         const score=p=>[p.ingredients_text,p.nova_group,p.nutriscore_grade&&p.nutriscore_grade!=='unknown'&&p.nutriscore_grade!=='not-applicable',p.additives_tags?.length,p.nutriments&&Object.keys(p.nutriments).length>5].filter(Boolean).length;
         return score(b)-score(a);
@@ -430,22 +436,23 @@
       resultsCount.textContent = `Matching ${products.length} Result found`;
       resultsGrid.innerHTML = products.map(item => {
         const imgUrl = item.image_front_url || item.image_url || '';
-        const name = item.product_name || 'İsimsiz Product';
-        const brand = item.brands ? item.brands.split(',')[0] : 'Marka bilinmiyor';
+        const name = item.product_name || 'Unnamed Product';
+        const brand = item.brands ? item.brands.split(',')[0] : 'Unknown brand';
         const isTR = item.countries_tags?.includes('en:turkey');
         
         const imgHtml = imgUrl 
-          ? `<img src="${imgUrl}" alt="${name} görseli" class="max-h-full object-contain group-hover:scale-105 transition-transform duration-500" loading="lazy" />`
+          ? `<img src="${imgUrl}" alt="${name} image" class="max-h-full object-contain group-hover:scale-105 transition-transform duration-500" loading="lazy" />`
           : `<i data-lucide="package" class="w-10 h-10 text-zinc-700" aria-hidden="true"></i>`;
 
         const completeness=[item.ingredients_text,item.nova_group,item.nutriscore_grade&&item.nutriscore_grade!=='unknown'&&item.nutriscore_grade!=='not-applicable',item.additives_tags?.length,item.nutriments&&Object.keys(item.nutriments).length>5].filter(Boolean).length;
         const quality=completeness>=4?'High':(completeness>=2?'Medium':'Low');
         const badgeHtml = `
           ${isTR ? `<span class="text-[10px] font-bold tracking-widest uppercase bg-amber-500/10 text-amber-400 py-1.5 px-3 rounded-lg border border-amber-500/20">TURKEY</span>` : ''}
-          <span class="text-[10px] font-bold tracking-widest uppercase bg-cyan-500/10 text-cyan-400 py-1.5 px-3 rounded-lg border border-cyan-500/20">VERİ: ${quality}</span>`;
+          <span class="text-[10px] font-bold tracking-widest uppercase bg-cyan-500/10 text-cyan-400 py-1.5 px-3 rounded-lg border border-cyan-500/20">DATA: ${quality}</span>`;
 
         return `
-          <button onclick="selectProduct('${item._id}')" aria-label="${name} productünü detaylı incele" class="bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col items-start text-left hover:bg-white/10 hover:border-white/20 transition-all group w-full">
+          <bu`
+tton onclick="selectProduct('${item._id}')" aria-label="Examine ${name} product in detail" class="bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col items-start text-left hover:bg-white/10 hover:border-white/20 transition-all group w-full">
             <div class="h-32 w-full bg-black/20 rounded-xl mb-4 overflow-hidden p-2 flex items-center justify-center relative">
               ${imgHtml}
             </div>
@@ -478,17 +485,17 @@
       // Üst Bilgiler
       const imgUrl = product.image_front_url || product.image_url;
       document.getElementById('detail-image-container').innerHTML = imgUrl 
-        ? `<img src="${imgUrl}" alt="${product.product_name} paket görseli" class="max-h-[300px] w-auto object-contain drop-shadow-2xl animate-fade-in" />`
+        ? `<img src="${imgUrl}" alt="${product.product_name} package image" class="max-h-[300px] w-auto object-contain drop-shadow-2xl animate-fade-in" />`
         : `<div class="flex flex-col items-center text-zinc-600"><i data-lucide="package" class="w-16 h-16 mb-4"></i><span>No Image</span></div>`;
       
-      document.getElementById('detail-brand').textContent = product.brands?.split(',')[0] || 'Bilinmeyen Marka';
-      document.getElementById('detail-name').textContent = product.product_name || 'İsimlendirilmemiş Product';
-      document.getElementById('detail-barcode').textContent = `KOD: ${product._id}`;
+      document.getElementById('detail-brand').textContent = product.brands?.split(',')[0] || 'Unknown Brand';
+      document.getElementById('detail-name').textContent = product.product_name || 'Unnamed Product';
+      document.getElementById('detail-barcode').textContent = `CODE: ${product._id}`;
 
       // Skorlar
       const ns = getNutriScoreDetails(product.nutriscore_grade);
       document.getElementById('detail-nutriscore').innerHTML = `
-        <div class="w-16 h-16 rounded-2xl flex items-center justify-center font-bold text-3xl border ${ns.style}" aria-label="Nutri-Score Notu: ${ns.letter}">
+        <div class="w-16 h-16 rounded-2xl flex items-center justify-center font-bold text-3xl border ${ns.style}" aria-label="Nutri-Score Grade: ${ns.letter}">
           ${ns.letter.toUpperCase()}
         </div>
         <p class="flex-1 text-sm leading-relaxed text-zinc-300">${ns.text}</p>
@@ -496,7 +503,7 @@
 
       const nova = getNovaDetails(product.nova_group);
       document.getElementById('detail-nova').innerHTML = `
-        <div class="w-16 h-16 rounded-2xl flex items-center justify-center font-bold text-3xl border ${nova.style}" aria-label="NOVA Grubu: ${nova.num}">
+        <div class="w-16 h-16 rounded-2xl flex items-center justify-center font-bold text-3xl border ${nova.style}" aria-label="NOVA Group: ${nova.num}">
           ${nova.num}
         </div>
         <p class="flex-1 text-sm leading-relaxed text-zinc-300">${nova.text}</p>
@@ -531,7 +538,7 @@
         
         additivesContainer.innerHTML = `
           <div class="bg-emerald-400/10 border border-emerald-400/20 rounded-xl p-5 flex items-center gap-4 text-emerald-200/90 text-sm">
-            <p>No detected E-number or additive information is available for this product.</p>
+            <p>There are no detected E-codes / additives for this product in the database.</p>
           </div>
         `;
       }
@@ -556,16 +563,17 @@
       if ((product.nova_group||0)>=4 || ['d','e'].includes(grade)) risk='🔴';
       else if ((product.nova_group||0)>=3 || ['b','c'].includes(grade)) risk='🟡';
       let summary=[];
-      if ((product.nova_group||0) >= 4) summary.push('High derecede işlenmiş bir product (NOVA 4).');
+      if ((product.nova_group||0) >= 4) summary.push('Highly processed product (NOVA 4).');
       if (['d','e'].includes(grade)) summary.push('Low Nutri-Score suggests lower nutritional quality.');
       if (additiveCount > 0) summary.push(`This product contains ${additiveCount} additives.`);
       const tags=(product.additives_tags||[]).join(' ');
-      if(tags.includes('e950')) summary.push('E950 (Acesulfam-K) yapay tatlandırıcısı içeriyor.');
-      if(tags.includes('e951')) summary.push('E951 (Aspartam) içeriyor.');
-      if(tags.includes('e150')) summary.push('Karamel renklendirici içeriyor.');
-      if ((nutriments.sugars_100g||0) > 15) summary.push('Sugar miktarı yüksek görünüyor.');
-      if ((nutriments.salt_100g||0) > 1.5) summary.push('Salt oranı yüksek görünüyor.');
-      if ((nutriments.fiber_100g||0) >= 6) summary.push('Fiber içeriği olumlu seviyede.');
+      if(tags.includes('e950')) summary.push('Contains E950 (Acesulfame-K) artificial sweetener.');
+      if(tags.includes('e951')) summary.push('Contains E951 (Aspartame).');
+      if(tags.includes('e150')) summary.push('Contains caramel coloring.');
+      if ((nutriments.
+sugars_100g||0) > 15) summary.push('Sugar amount seems high.');
+      if ((nutriments.salt_100g||0) > 1.5) summary.push('Salt content seems high.');
+      if ((nutriments.fiber_100g||0) >= 6) summary.push('Fiber content is at a good level.');
       if ((nutriments.proteins_100g||0) >= 10) summary.push('Notable protein content.');
       if(summary.length===0) summary.push('No major warning signs were detected in the available data.');
       if (dataCompleteness <= 1) {
@@ -580,7 +588,7 @@
       if (product.ingredients_text) {
         ingredientsContainer.innerHTML = `<p class="text-zinc-400 leading-relaxed text-sm bg-black/20 p-6 rounded-2xl border border-white/5">${product.ingredients_text}</p>`;
       } else {
-        ingredientsContainer.innerHTML = `<p class="text-zinc-600 italic text-sm">Ingredients bilgisi henüz sisteme girilmemiş.</p>`;
+        ingredientsContainer.innerHTML = `<p class="text-zinc-600 italic text-sm">Ingredient information has not been entered into the system yet.</p>`;
       }
 
       detailContainer.classList.remove('hidden');
@@ -605,7 +613,7 @@
 
       try {
         if (isBarcode) {
-          // Barkod Searchsı (v0 API'si 404 yerine 200 döner, CORS "Failed to fetch" hatalarını önler)
+          // Barcode Search (v0 API returns 200 instead of 404, preventing CORS "Failed to fetch" errors)
           const res = await fetch(`https://world.openfoodfacts.org/api/v0/product/${query}.json`, {
             method: 'GET',
             headers: {
@@ -620,10 +628,10 @@
             globalProductsList = [data.product];
             renderDetail(data.product);
           } else {
-            showError("Product Not Found", "Bu barkoda sahip product veritabanında henüz yok. Açık kaynaklı bir sistem olduğu için eksiklikler normaldir.");
+            showError("Product Not Found", "A product with this barcode is not in the database yet. Since it is an open-source system, missing data is normal.");
           }
         } else {
-          // İsim Searchsı
+          // Name Search
           const searchUrl = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(apiQuery)}&search_simple=1&action=process&json=1`;
           let data = null;
           let lastError = null;
@@ -641,7 +649,7 @@
               await new Promise(r => setTimeout(r, 300 * (attempt + 1)));
             }
           }
-          if (!data) throw lastError || new Error('Search sunucusuna ulaşılamadı.');
+          if (!data) throw lastError || new Error('Search server could not be reached.');
 
           let products = data.products || [];
 
@@ -688,12 +696,12 @@ const normalize=s=>(s||'').toLowerCase().replace(/[ç]/g,'c').replace(/[ğ]/g,'g
               renderResultsList(topResults);
             }
           } else {
-            showError("Product Not Found", `"${query}" araması için sonuç bulunamadı. Lütfen farklı bir isim veya doğrudan barkod ile tekrar deneyin.`);
+            showError("Product Not Found", `No results found for "${query}". Please try again with a different name or directly with a barcode.`);
           }
         }
       } catch (err) {
         console.error("Fetch Error:", err);
-        showError("Product Not Found", "Aradığınız productü bulamadık. Yazımı kontrol edin veya daha genel bir arama deneyin. Örnekler: Ülker, süt, cola, maya, bisküvi. Barkod ile arama yapmak da daha kesin sonuç verir.");
+        showError("Product Not Found", "We couldn't find the product you are looking for. Check the spelling or try a more general search. Examples: Ülker, milk, cola, yeast, biscuit. Searching by barcode also provides more accurate results.");
       }
     });
 
@@ -705,7 +713,8 @@ const normalize=s=>(s||'').toLowerCase().replace(/[ç]/g,'c').replace(/[ğ]/g,'g
 <script src="https://unpkg.com/@zxing/library@latest"></script>
 <script>
 const scanBtn=document.getElementById('scan-btn');
-const barcodeFile=document.getElementById('barcode-file');
+const barcodeFile=document.get_
+ElementById('barcode-file');
 if(scanBtn&&barcodeFile){
 scanBtn.onclick=async()=>{
 if('BarcodeDetector' in window){
