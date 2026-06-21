@@ -1,14 +1,36 @@
 # What Am I Eating?
 
-Open-source food product analyzer powered by OpenFoodFacts.
+Open-source food product analyzer built on OpenFoodFacts.
 
-Live Demo: https://neyiyorum.ozgurguler.tech
+Live Demo
+https://neyiyorum.ozgurguler.tech
 
-Features:
+## Features
 - Product search
-- Barcode lookup
+- Barcode search
+- Camera barcode scanning
 - Nutrition summary
-- Allergens
-- Eco-Score
 - NOVA score
+- Nutri-Score
+- Eco-Score
+- Allergen detection
+- Food additive analysis
 - Data quality indicators
+
+## Why?
+Most food apps show raw data. This project tries to explain whether a product is well documented, highly processed, and what important nutrition signals exist.
+
+## Data Source
+OpenFoodFacts
+https://world.openfoodfacts.org
+
+## Tech
+- HTML
+- JavaScript
+- Tailwind CSS
+- OpenFoodFacts API
+- ZXing
+- BarcodeDetector API
+
+## License
+MIT
